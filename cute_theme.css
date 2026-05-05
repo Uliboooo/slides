@@ -1,0 +1,58 @@
+/* @theme soft-cool-cute */
+
+section {
+  background: linear-gradient(135deg, #111827, #1f2937);
+  color: #e5e7eb;
+  font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
+
+  padding: 52px;
+  /* border-radius: 28px; */
+}
+
+/* タイトル */
+h1 {
+  font-size: 2.4em;
+  color: #f472b6;
+  letter-spacing: 0.5px;
+}
+
+/* サブタイトル */
+h2 {
+  color: #93c5fd;
+  font-weight: 500;
+}
+
+/* 強調 */
+strong {
+  color: #f9a8d4;
+}
+
+/* 箇条書き */
+ul {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  /* border-radius: 18px; */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+/* リスト */
+li {
+  margin: 8px 0;
+}
+
+/* コード */
+code {
+  background: #374151;
+  color: #c4b5fd;
+  padding: 3px 6px;
+  /* border-radius: 8px; */
+}
+
+/* コードブロック */
+pre {
+  background: #0f172a;
+  /* border-radius: 18px; */
+  padding: 16px;
+  border: 1px solid rgba(244, 114, 182, 0.15);
+}
