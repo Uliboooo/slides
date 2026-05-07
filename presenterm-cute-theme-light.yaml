@@ -1,0 +1,71 @@
+---
+extends: light
+
+default:
+  margin:
+    percent: 8
+  colors:
+    foreground: "1f2937"
+    background: "ffffff"
+
+slide_title:
+  alignment: center
+  padding_top: 1
+  padding_bottom: 1
+  colors:
+    foreground: "db2777"
+  bold: true
+  font_size: 4
+
+headings:
+  h1:
+    colors:
+      foreground: "db2777"
+    bold: true
+  h2:
+    colors:
+      foreground: "2563eb"
+  h3:
+    colors:
+      foreground: "2563eb"
+
+bold:
+  colors:
+    foreground: "be185d"
+
+inline_code:
+  colors:
+    foreground: "6d28d9"
+    background: "f3f4f6"
+
+code:
+  theme_name: InspiredGitHub
+  alignment: center
+  minimum_size: 50
+  minimum_margin:
+    percent: 8
+  padding:
+    horizontal: 2
+    vertical: 1
+
+block_quote:
+  prefix: "▍ "
+  colors:
+    foreground: "1f2937"
+    background: "f8fafc"
+    prefix: "db2777"
+
+footer:
+  style: template
+  right: "{current_slide} / {total_slides}"
+
+palette:
+  colors:
+    text: "1f2937"
+    bg: "ffffff"
+    bg_alt: "f8fafc"
+    title: "db2777"
+    subtitle: "2563eb"
+    strong: "be185d"
+    code_fg: "6d28d9"
+    code_bg: "f3f4f6"

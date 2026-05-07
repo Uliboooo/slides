@@ -1,0 +1,72 @@
+---
+extends: dark
+
+default:
+  margin:
+    percent: 8
+  colors:
+    foreground: "e5e7eb"
+    background: "111827"
+
+slide_title:
+  alignment: center
+  padding_top: 1
+  padding_bottom: 1
+  colors:
+    foreground: "f472b6"
+  bold: true
+  font_size: 6
+
+headings:
+  h1:
+    colors:
+      foreground: "f472b6"
+    bold: true
+  h2:
+    colors:
+      foreground: "93c5fd"
+    font_size: 4
+  h3:
+    colors:
+      foreground: "93c5fd"
+
+bold:
+  colors:
+    foreground: "f9a8d4"
+
+inline_code:
+  colors:
+    foreground: "c4b5fd"
+    background: "374151"
+
+code:
+  theme_name: visual-studio-dark-plus
+  alignment: center
+  minimum_size: 50
+  minimum_margin:
+    percent: 8
+  padding:
+    horizontal: 2
+    vertical: 1
+
+block_quote:
+  prefix: "▍ "
+  colors:
+    foreground: "e5e7eb"
+    background: "0f172a"
+    prefix: "f472b6"
+
+footer:
+  style: template
+  right: "{current_slide} / {total_slides}"
+
+palette:
+  colors:
+    text: "e5e7eb"
+    bg: "111827"
+    bg_alt: "0f172a"
+    title: "f472b6"
+    subtitle: "93c5fd"
+    strong: "f9a8d4"
+    code_fg: "c4b5fd"
+    code_bg: "374151"
