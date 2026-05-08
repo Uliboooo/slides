@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>ページタイトル</title>
+  <meta name="description" content="ページの説明文（120文字程度）">
+
+</head>
+
+<style>
+  .fig {
+    display: flex;
+    flex-wrap: wrap;
+
+    .group {
+      p {
+        font-size: 2rem;
+      }
+
+      border: 2px solid #111;
+
+      .content {
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+</style>
+
+<body>
+  <div class="fig">
+    <div class="group">
+      <p>init</p>
+      <div class="content">
+        <p>systemd</p>
+      </div>
+      <div class="content">
+        <p>inirun</p>
+      </div>
+      <div class="content">
+        <p>systemd</p>
+      </div>
+      <div class="content">
+        <p>systemd</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
