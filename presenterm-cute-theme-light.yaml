@@ -1,4 +1,4 @@
----
+ligh---
 extends: light
 
 default:
@@ -6,7 +6,7 @@ default:
     percent: 8
   colors:
     foreground: "1f2937"
-    background: "ffffff"
+    background: "f8fafc"
 
 slide_title:
   alignment: center
@@ -35,11 +35,12 @@ bold:
 
 inline_code:
   colors:
-    foreground: "6d28d9"
-    background: "f3f4f6"
+    foreground: "1d4ed8"
+    background: "dbeafe"
 
 code:
-  theme_name: InspiredGitHub
+  theme_name: GitHub
+  background: true
   alignment: center
   minimum_size: 50
   minimum_margin:
@@ -62,10 +63,10 @@ footer:
 palette:
   colors:
     text: "1f2937"
-    bg: "ffffff"
+    bg: "f8fafc"
     bg_alt: "f8fafc"
     title: "db2777"
     subtitle: "2563eb"
     strong: "be185d"
-    code_fg: "6d28d9"
-    code_bg: "f3f4f6"
+    code_fg: "1d4ed8"
+    code_bg: "dbeafe"
