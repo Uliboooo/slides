@@ -23,7 +23,16 @@
 
 = 具体例
 
-#image("ls_config.png")
+#grid(
+  columns: (2fr, 1fr),
+  column-gutter: 1em,
+
+  image("ls_config.png", width: 100%),
+
+  text(size: 22pt)[
+    Symbolic linkがたくさん
+  ],
+)
 
 = メリット
 
@@ -39,10 +48,17 @@
 
 = Unix哲学
 
-#quote(attribution: ["Peter H. Salus", "McIlroy"])[
+#quote(
+  block: true,
+  attribution: [
+    Peter H. Salus and McIlroy
+  ],
+)[
+  普遍的なインターフェースであるテキストストリームを扱うプログラムを書く \
   ...
-  - 普遍的なインターフェースであるテキストストリームを扱うプログラムを書く
 ]
+
+#pause
 
 拡張すれば...
 

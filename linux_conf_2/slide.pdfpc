@@ -1,0 +1,1 @@
+{"pdfpcFormat":2,"endSlide":1,"disableMarkdown":false,"noteFontSize":20,"pages":[{"idx":1,"label":"2","overlay":0,"note":"= dotfilesから見るLinuxプログラムのお行儀\n\n== dotfilesとは\n\n各プログラムの設定ファイルを1箇所に集めたもの\n\n#pause\n\n=== なぜ\"dot\"files?\n\n多くの設定ファイルは`~/.config/`や`.zshrc`などのように#box[*隠しファイル*]になっている\n\nそれらを総称してdot(.)filesと呼ぶ\n\n"}]}
