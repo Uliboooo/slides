@@ -9,6 +9,10 @@
 
 = dotfilesから見るLinuxプログラムのお行儀
 
+== Outline <touying:hidden>
+
+#components.adaptive-columns(outline(title: none, indent: 1em))
+
 == dotfilesとは
 
 各プログラムの設定ファイルを1箇所に集めたもの
@@ -29,22 +33,31 @@
 
   image("ls_config.png", width: 100%),
 
-  text(size: 22pt)[
-    Symbolic linkがたくさん
+  [
+    #text(size: 22pt)[Symbolic linkがたくさん]
+
+    #v(0.5em)
+
+    #text(size: 16pt)[
+      - 長いパスはHash値
+      - nixはrebuildのたびにHashからパスを生成する
+      - `~/dotfiles/.config/git/`\
+        $=>$ `~/.config/git/`にlinkする
+    ]
   ],
 )
 
 = メリット
 
 - 複数の環境で設定を共有できる
-- git repositoryにすることでコンフリクト対策も
+- gitを使えばコンフリクト対策も
 - 設定のバックアップ的な
 
 = デメリット
 
 - symbolic linkを貼る際に面倒なことも
   - nix home-managerやshell scriptで自動化もできる
--
+- 盆栽が始まり環境構築に気を取られる
 
 = Unix哲学
 
@@ -60,24 +73,62 @@
 
 #pause
 
-拡張すれば...
-
-=> *プレーンテキストこそがもっとも普遍なデータ*
-
-= プレーンテキストだからこそ
-
-dotfilesは基本的にプレーンテキスト + 明快なパスだから成り立つ
+拡張して捉えれば...
 
 #pause
 
-=> Excelの設定ファイル#footnote[あるのか知らんけど]はExcelからしか読めない
+$=>$ *プレーンテキストこそがもっとも普遍なデータ*
+
+= プレーンテキストだからこそ
+
+dotfilesで管理できるのは基本的にプレーンテキスト\
+\+ 明快なパスだから成り立つ
+
+#pause
+
+$=>$ Excelの設定はExcelからしか読めない
 
 #pause
 
 例としてnvimは`~/.config/nvim`以下にluaなどの#box[*プレーンテキスト*]な設定ファイルを配置することを要求する
 
-`toml`とか`json`とか。
+#pause
 
-=
+他のツールでは`toml`とか`json`とかが使われます。
 
+= XDG Base Directory
 
+#pause
+
+XDG Base Directory Specification#footnote[https://specifications.freedesktop.org/basedir/latest/]によって#box[*"ファイルが配置されるべき基準となるディレクトリ"*]\
+が定義されている
+
+#pause
+
+#text(size: 18pt)[
+  ユーザー個別のデータを種類によって各値が設定されている
+]
+
+#pause
+
+#{
+  set text(size: 18pt)
+  table(
+    stroke: none,
+    columns: 3,
+    align: auto,
+
+    table.header([], align(center)[Description], align(center)[Default]),
+
+    [`XDG_CONFIG_HOME`], [設定], [`$HOME/.config`],
+    [`XDG_CACHE_HOME`], [キャッシュ], [`$HOME/.cache`],
+    [`XDG_DATA_HOME`], [データ], [`$HOME/.local/share`],
+    [`XDG_STATE_HOME`], [状態ファイル], [`$HOME/.local/state`],
+  )
+}
+
+#pagebreak()
+
+== dotfilesの内容は`XDG_CONFIG_HOME`へ
+
+- Linux向けのプログラムで固有のファイルを
