@@ -2,7 +2,11 @@
   description = "Typst development environment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixos-unstable は現在 aarch64-darwin で appstream のビルドが壊れている
+    # (zathura が appstream に依存するため巻き込まれる)。
+    # https://github.com/NixOS/nixpkgs/issues/514566
+    # 直っていることを確認できるまでは動作確認済みのコミットに固定する。
+    nixpkgs.url = "github:NixOS/nixpkgs/46336d4d6980ae6f136b45c8507b17787eb186a0";
   };
 
   outputs =
