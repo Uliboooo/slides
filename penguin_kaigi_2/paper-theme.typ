@@ -298,13 +298,53 @@
   touying-slide(self: self, config: config, body)
 })
 
-/// 章の区切り。`config-common(new-section-slide-fn: section-slide)` に渡せます。
+/// 章の区切り。`config-common(new-section-slide-fn: section-slide)` に渡すと、
+/// 各 `= 見出し` の前にこの区切りページが 1 枚挟まります。
+///
+/// 一番最初の見出しだけは表紙として扱い、`title-slide` と同じ中央寄せの大タイトルに
+/// します (`cover-first-slide: false` で無効。その場合は普通の区切りページ)。
 ///
 /// - config (dictionary): スライド設定。
 /// - level (int): 見出しレベル。
 /// - numbered (bool): 見出し番号を出すか。
 /// - body (content): 補足。
 #let section-slide(config: (:), level: 1, numbered: true, body) = touying-slide-wrapper(self => {
+  // ── 表紙 ──────────────────────────────────────────────────────────
+  // 最初の `= foo` は区切りではなく表紙 (中央・大タイトル・header/footer なし)。
+  if (
+    self.at("is-first-slide", default: false)
+      and self.store.at("cover-first-slide", default: false)
+  ) {
+    let cover-self = utils.merge-dicts(
+      self,
+      config-common(freeze-slide-counter: true),
+      config-page(
+        fill: self.colors.neutral-lighter,
+        header: none,
+        footer: none,
+        margin: 3em,
+      ),
+    )
+    return touying-slide(
+      self: cover-self,
+      config: config,
+      std.align(center + horizon, {
+        block(
+          below: .8em,
+          text(
+            size: 1.7em,
+            weight: "bold",
+            fill: self.colors.neutral-darkest,
+            utils.display-current-heading(level: level, depth: level),
+          ),
+        )
+        if body != none {
+          block(text(fill: self.colors.neutral-dark, body))
+        }
+      }),
+    )
+  }
+
   self = utils.merge-dicts(
     self,
     config-page(fill: self.colors.neutral-lighter, margin: (x: 3em, y: 3em)),
@@ -456,10 +496,11 @@
       footer-descent: 20%,
     ),
     config-common(
-      // `=` を区切りスライドにせず、中身のあるスライドにする。
-      // 区切りが欲しい時は `new-section-slide-fn: section-slide` を渡す。
+      // 各 `= 見出し` の前に区切りページ (section-slide) を 1 枚挟む。
+      // 見出し本体は続く通常スライドの header にも出る。最初の見出しだけは
+      // section-slide が表紙として描く (cover-first-slide)。
       slide-fn: slide,
-      new-section-slide-fn: none,
+      new-section-slide-fn: section-slide,
       // header / footer を本文と同じ左右マージンに揃える。
       zero-margin-header: false,
       zero-margin-footer: false,
@@ -471,7 +512,9 @@
       init: (self: none, body) => {
         set text(font: font, size: size, fill: ink, lang: "ja")
         // 余白で読ませる。行間は CJK 込みで少し広めに。
-        set par(leading: .75em, spacing: 1em, justify: false)
+        // spacing (段落間の空き) は leading より広く取り、段落の切れ目を
+        // はっきりさせる。
+        set par(leading: .75em, spacing: 1.5em, justify: false)
         set block(radius: 0pt)
         set list(indent: .35em, spacing: .8em, marker: (
           text(fill: ink-muted, [▪]),
