@@ -30,6 +30,8 @@
             pdfpc
             # PDF CLI tool(e.g. merge)
             pdfcpu
+
+            presenterm
           ];
           shellHook = ''
             unset SOURCE_DATE_EPOCH

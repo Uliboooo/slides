@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Uncoated Paper — syntax highlighting theme for paper-theme.typ
+
+  PaperDesign.md の Palette だけで組んだハイライト。色数を増やさず、
+  ink (地) / ink-muted (弱い情報) / rose (値・強調) の 3 段で読ませます。
+  warning は本当に壊れている時 (invalid) だけ。
+-->
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>Uncoated Paper</string>
+  <key>settings</key>
+  <array>
+    <dict>
+      <key>settings</key>
+      <dict>
+        <key>background</key>
+        <string>#fbf9f2</string>
+        <key>foreground</key>
+        <string>#2d302b</string>
+        <key>caret</key>
+        <string>#2d302b</string>
+        <key>lineHighlight</key>
+        <string>#ead2d9</string>
+        <key>selection</key>
+        <string>#ead2d9</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Comment</string>
+      <key>scope</key>
+      <string>comment, punctuation.definition.comment</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#77766d</string>
+        <key>fontStyle</key>
+        <string>italic</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Keyword / storage</string>
+      <key>scope</key>
+      <string>keyword, storage, storage.type, keyword.control, keyword.operator.new</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#2d302b</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>String</string>
+      <key>scope</key>
+      <string>string, string.quoted, punctuation.definition.string, markup.raw</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#d38ca0</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Constant / number</string>
+      <key>scope</key>
+      <string>constant, constant.numeric, constant.language, constant.character</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#d38ca0</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Function / type name</string>
+      <key>scope</key>
+      <string>entity.name.function, support.function, entity.name.type, entity.name.class, support.type, support.class</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#2d302b</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Tag / attribute / key</string>
+      <key>scope</key>
+      <string>entity.name.tag, entity.other.attribute-name, meta.tag, support.variable</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#2d302b</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Variable / parameter</string>
+      <key>scope</key>
+      <string>variable, variable.parameter, variable.other</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#2d302b</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Operator / punctuation</string>
+      <key>scope</key>
+      <string>punctuation, keyword.operator, meta.brace</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#77766d</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Invalid</string>
+      <key>scope</key>
+      <string>invalid, invalid.illegal</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#a84435</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+  </array>
+  <key>uuid</key>
+  <string>7f1e2c40-9a3b-4d5e-8c21-3b6d0f4a9e11</string>
+</dict>
+</plist>
