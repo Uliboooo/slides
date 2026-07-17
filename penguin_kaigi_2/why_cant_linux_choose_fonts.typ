@@ -116,7 +116,7 @@
     #align(center)[
       #text(size: 2em)[*統合漢字*]
     ]
-  ]
+  ],
 )
 
 = CJK統合漢字
@@ -202,15 +202,35 @@ $arrow.r.curve$ 意味が異なるなら、別の*字*では?
     #align(center)[
       #stack(
         spacing: 6pt,
-        layer(rgb("#ece8ff"), [Web ページ(CSS)], [font-family リスト + lang 属性]),
+        layer(
+          rgb("#ece8ff"),
+          [Web ページ(CSS)],
+          [font-family リスト + lang 属性],
+        ),
         text(size: 20pt)[$arrow.b.double$],
-        layer(rgb("#ece8ff"), [Blink スタイル解決], [総称名をユーザー設定に置換]),
+        layer(
+          rgb("#ece8ff"),
+          [Blink スタイル解決],
+          [総称名をユーザー設定に置換],
+        ),
         text(size: 20pt)[$arrow.b.double$],
-        layer(rgb("#e8fff4"), [文字ごとのマッチング], [グリフ有無をフォント毎に確認]),
+        layer(
+          rgb("#e8fff4"),
+          [文字ごとのマッチング],
+          [グリフ有無をフォント毎に確認],
+        ),
         text(size: 20pt)[$arrow.b.double$],
-        layer(rgb("#e8fff4"), [システムフォールバック], [文字 + lang で OS に問合せ]),
+        layer(
+          rgb("#e8fff4"),
+          [システムフォールバック],
+          [文字 + lang で OS に問合せ],
+        ),
         text(size: 20pt)[$arrow.b.double$],
-        layer(rgb("#fdf3e1"), [fontconfig(Linux)], [conf.d の規則で候補を並替え]),
+        layer(
+          rgb("#fdf3e1"),
+          [fontconfig(Linux)],
+          [conf.d の規則で候補を並替え],
+        ),
       )
     ]
   ],
@@ -242,37 +262,83 @@ $arrow.r.double$ 正常なサイトへ影響が出てしまう
 
 #statement()[WebサイトがOS側の実体フォントを使う場合]
 
+#pause
+
 `font-family: "Noto Ssns JP", ...`のような名前のみの指定、\
 フォント解決がOSになるため、ユーザーが手を出すことができる
 
+#pause
+
 Linuxでは...
 
-`fontconfig`という設定があり、
+#pause
+
+`fontconfig`という設定があり、そこでJPフォントが優先されるようにすれば統合漢字を踏んでも新字体などで表示される
+
+#text(size: 0.7em)[
+  ちなみに...\
+  #pause
+  FirefoxにはWebサイトのフォントを無視する機能がある
+  #grid(
+    columns: (1fr, 1fr),
+    [
+      #image("./images/firefox_evil_feat.png", height: 2em)
+    ],
+    [
+      #pause
+      #align(left + horizon)[
+        #text(size: 0.8em)[
+          evilですね$dash.wave$, Webデザインの敗北宣言]]],
+  )
+]
+
+= まあ、それでもダメな時はある
+
+#pause
+
+そもそも`fontconfig`も`lang`属性がないとただの優先度順になる
 
 
 
-= Case 3. Webサイト側でフォントが完結している
+#pause
+== そもそも統合されている時点で
 
+#pause
 
+本来別の*字*#footnote()[少なくとも言語的には表示が別]なものを`lang`属性とかの外部でしか区別できないので負け
 
+#pause
 
-= 適切にフォントが解決されるとは限らない
+あとレイヤーがとにかく多いのでどこで詰まっているかよく分からない
 
-== そもそもWebの時点でフォントが固定される
+#pause
 
-てしまうと
+例えば、繁体字や簡体字のフォントを`fontconfig`で`JP`にするのは\
+個人的にはいいとは思わない
 
 = フォントってなんだよ!
 
+- 実際はもっと複雑な処理を行っており、特に表示するコンテンツの多いWebはとんでもないことに
+- 最終的には1文字ずつ処理したり、言語のフラグを立ててフォントを調整したり...
+- 異体字セレクタと呼ばれるフラグで字体を変えたり
+- 合字処理とか, 絵文字の処理, 幅調整...
+- 可変フォント
+- 縦書き...
+
+まあ、*とても*多くの概念と設計の上に成り立っている。\
+文字出す*だけ*なのにね。
+
 = 結局フォントってどうするべき?
 
-- 個人的にはWebサイトはその表記した言語のフォントをちゃんと使うべき
+- Webサイトはその表記した言語のフォントをちゃんと使うべき
+#pause
 - しかし任意の内容を多言語対応することもある
   - SNSとかブログサービスとか
+#pause
 - その場合、静的にCJKの優先度をつけることは難しい
   - 言語推定などによってフォント優先度を動的にする?
   - クライアント側の言語設定に引っ張る?
-    - 非本質的な解決ですが楽
+    - 非本質的な解決だが、*楽*
 
 = {}.comはどうしてる?
 
@@ -294,7 +360,7 @@ Linuxでは...
 
       各言語ごとにちゃんとしたフォントが使われる
     ]
-  ]
+  ],
 )
 
 == claude.ai
@@ -311,10 +377,10 @@ Linuxでは...
     ]
 
     #text(size: 0.8em)[
-    $arrow.r.double$ Claudeはこのあたりが雑でシステムフォールバックに落ち、そのあとに私のLinuxの設定も雑なのでKRに転んだ\
+      $arrow.r.double$ Claudeはこのあたりが雑でシステムフォールバックに落ち、そのあとに私のLinuxの設定も雑なのでKRに転んだ\
     ]
     #text(size: 0.6em)[という説もある]
-  ]
+  ],
 )
 
 = I HATE "中華フォント"
@@ -342,5 +408,30 @@ Linuxでは...
         #link("https://blog.uliboooo.dev/probabilistic-existence-characters")
       ]
     ]
-  ]
+  ],
 )
+
+= Typstはいいぞぉ
+
+#grid(
+  columns: (1fr, auto, 1fr),
+  gutter: 1em,
+  [
+    #image("./images/typst.png")
+  ],
+  [
+    #align(center + horizon)[
+      $arrow.r.double$
+    ]
+  ],
+  [
+    #image("./images/result.png")
+  ],
+)
+
+#text(size: 0.8em)[
+  - Typstそのものが組版システムなのでPDFなどの固定表示に向いている
+  - プレーンテキストでそれなりに表示系をいじれる
+  - 公式repoにPDF出力機能pkgがあり手軽にスライドにできる(`@preview/touying`)
+]
+

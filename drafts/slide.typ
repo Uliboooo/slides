@@ -129,6 +129,11 @@ XDG Base Directory Specification#footnote[https://specifications.freedesktop.org
 
 #pagebreak()
 
-== dotfilesの内容は`XDG_CONFIG_HOME`へ
+= ルール
 
-- Linux向けのプログラムで固有のファイルを
+こうやってLinuxという数多のディストリビューション(=環境)を抱える文化において、共通のルールを持つことで統一的な管理を可能にしている。
+
+*インターフェースの重要性*
+
+\+ Linux Kernelに関してもkernel空間とuser空間に強いインターフェースを用いることで解決している
+

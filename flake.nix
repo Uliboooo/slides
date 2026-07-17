@@ -27,6 +27,7 @@
           packages = with pkgs; [
             typst
             tinymist
+            typstyle
 
             imagemagick
             # pdf viewer
