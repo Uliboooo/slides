@@ -116,6 +116,37 @@
   },
 )
 
+/// 事実を述べる一文。引用 (`quote`) でも強調 (`*強調*` / `#alert`) でもなく、
+/// 「これはこうだ」という断定を、上下に余白を取って中央に置く下線付きの一文。
+///
+/// quote は `ink-muted` + 左罫線で「よそからの声」を、statement は本文と同じ
+/// `ink` の太字に rose の下線を敷いて「ここで示す事実」を表します。塗り・囲み
+/// 罫線は使いません。
+///
+/// - stroke (stroke): 下線。既定は rose の 2pt。
+/// - offset (length): 下線と文字の間の空き。
+/// - spacing (length): 上下の空き。本文より一段広く取って一文を際立たせます。
+/// - align (alignment): 文の配置。既定は中央。
+/// -> content
+#let statement(
+  stroke: 2pt + rose,
+  offset: .2em,
+  spacing: 2em,
+  align: center,
+  body,
+) = block(
+  width: 100%,
+  spacing: spacing,
+  std.align(
+    align,
+    text(
+      fill: ink,
+      weight: "bold",
+      underline(stroke: stroke, offset: offset, evade: false, body),
+    ),
+  ),
+)
+
 /// module separator 相当の細い横罫線。
 ///
 /// -> content
@@ -451,7 +482,8 @@
 /// - header-right (content, function): header 右。既定は `self.info.logo`。
 /// - footer (content, function): footer 左。既定は `none`。
 /// - footer-right (content, function): footer 右。既定はページ番号。
-/// - subslide-preamble (content, function): level 2 見出しの表示。
+/// - subslide-preamble (content, function): 各スライド冒頭に差し込む内容。
+///   `slide-level: 1` では `==` が本文に出るので、既定は `none` です。
 #let paper-theme(
   aspect-ratio: "16-9",
   font: ("TeX Gyre Heros", "Harano Aji Gothic"),
@@ -469,18 +501,7 @@
   header-right: self => self.info.logo,
   footer: none,
   footer-right: context utils.slide-counter.display() + " / " + utils.last-slide-number,
-  subslide-preamble: context {
-    // level 2 見出しが無い時は何も出さない。
-    // 無条件に v() や block() を置くと、見出しが空でも spacing だけが残り、
-    // `=` だけのスライドで header と本文が離れる。
-    if utils.current-heading(level: 2) != none {
-      block(
-        above: .5em,
-        below: 1em,
-        text(1.05em, weight: "bold", fill: ink, utils.display-current-heading(level: 2)),
-      )
-    }
-  },
+  subslide-preamble: none,
   ..args,
   body,
 ) = {
@@ -496,6 +517,10 @@
       footer-descent: 20%,
     ),
     config-common(
+      // 改ページは `=` だけ。touying の既定は `slide-level: 2` で `==` でも
+      // スライドが切れるが、このテーマでは `==` は 1 枚のスライドの中の
+      // 小見出しとして扱う (下の `heading.where(level: 2)` で描画)。
+      slide-level: 1,
       // 各 `= 見出し` の前に区切りページ (section-slide) を 1 枚挟む。
       // 見出し本体は続く通常スライドの header にも出る。最初の見出しだけは
       // section-slide が表紙として描く (cover-first-slide)。
@@ -511,10 +536,10 @@
       alert: utils.alert-with-primary-color,
       init: (self: none, body) => {
         set text(font: font, size: size, fill: ink, lang: "ja")
-        // 余白で読ませる。行間は CJK 込みで少し広めに。
+        // 余白で読ませる。行間は詰め気味にして、段落の塊を締める。
         // spacing (段落間の空き) は leading より広く取り、段落の切れ目を
         // はっきりさせる。
-        set par(leading: .75em, spacing: 1.5em, justify: false)
+        set par(leading: .6em, spacing: 1.1em, justify: false)
         set block(radius: 0pt)
         set list(indent: .35em, spacing: .8em, marker: (
           text(fill: ink-muted, [▪]),
@@ -525,6 +550,16 @@
 
         show heading: set text(fill: ink)
         show heading.where(level: 1): set text(size: 1.4em)
+        // `==` は改ページせず、スライド内の小見出しになる。
+        // 大きさではなく太字で本文と分ける。
+        // show rule の中でも level 2 の既定サイズ (1.2em) が効いているので、
+        // ここで `em` を使うと掛かってしまう。本文サイズ基準にするため
+        // `size` から絶対値で組む。
+        show heading.where(level: 2): it => block(
+          above: .5em,
+          below: .5em,
+          text(.95 * size, weight: "bold", fill: ink, it.body),
+        )
 
         // rose にするのは外部リンクだけ。目次や相互参照の内部リンクは
         // 地の文字色のままにして、色数を増やさない。

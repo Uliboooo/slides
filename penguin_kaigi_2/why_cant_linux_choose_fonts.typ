@@ -7,10 +7,6 @@
 #set quote(block: true)
 #let glyph(x) = [「#x」]
 
-// #show: simple-theme.with(
-//   aspect-ratio: "16-9",
-// )
-
 #show footnote.entry: it => {
   set text(size: 0.8em)
   it
@@ -148,6 +144,27 @@ Unicodeの`U+4E00..U+9FFF`の範囲。意味的に同一であればグリフが
 #pause
 まあ、色々批判はあったりする。
 
+= 統合漢字によってCJKの漢字を文字コードレベルで区別できない
+
+CJK間でグリフの異なる統合漢字(#glyph()[直], #glyph()[半], etc...)を文字コードレベルで区別ができない
+
+#pause
+
+$arrow.r.double$ どの文字が表示されるかはフォントの優先度に依存する
+
+#pause
+
+#text(size: 0.8em)[
+  こういう資料を作成する際に*とても*困る
+]
+
+#pause
+
+文字ごとにフォントを当てるとか正気か?
+
+#pause
+
+#statement()[最も*困る*領域が_Web_]
 
 = どこまでが同じ文字?
 
@@ -155,45 +172,175 @@ Unicodeの`U+4E00..U+9FFF`の範囲。意味的に同一であればグリフが
 
 使われる地域が違えば同一の意味を持っていた文字も別の意味を持つ。
 
-$arrow.r.curve$ 意味が異なるなら最早、別の*字*では?
-
+$arrow.r.curve$ 意味が異なるなら、別の*字*では?
 
 例えば、#glyph[湯]は日本語では#glyph[お湯]という意味だが、中国語では#glyph[スープ]。
 #glyph[愛人]は日本では不倫だが、中国では配偶者や恋人を表す。
 
-
-
-
-
-= フォントが選択されるまで
+= フォントが選択されるまで(Webの場合)
 
 #import "@preview/fletcher:0.5.8": *
 
 #let layer(fill, title, body) = rect(
-  radius: 6pt,
+  radius: 1pt,
   fill: fill,
   stroke: luma(70%),
-  inset: 10pt,
+  inset: 6pt,
 )[
   #align(center)[
-    #strong(title)
+    #text(size: 18pt)[#strong(title)]
     #linebreak()
-    #body
+    #text(size: 14pt, fill: luma(30%))[#body]
   ]
 ]
 
-#align(center)[
-  #stack(
-    spacing: 10pt,
+#grid(
+  columns: (300pt, 1fr),
+  gutter: 1em,
+  [
+    #pause
+    #align(center)[
+      #stack(
+        spacing: 6pt,
+        layer(rgb("#ece8ff"), [Web ページ(CSS)], [font-family リスト + lang 属性]),
+        text(size: 20pt)[$arrow.b.double$],
+        layer(rgb("#ece8ff"), [Blink スタイル解決], [総称名をユーザー設定に置換]),
+        text(size: 20pt)[$arrow.b.double$],
+        layer(rgb("#e8fff4"), [文字ごとのマッチング], [グリフ有無をフォント毎に確認]),
+        text(size: 20pt)[$arrow.b.double$],
+        layer(rgb("#e8fff4"), [システムフォールバック], [文字 + lang で OS に問合せ]),
+        text(size: 20pt)[$arrow.b.double$],
+        layer(rgb("#fdf3e1"), [fontconfig(Linux)], [conf.d の規則で候補を並替え]),
+      )
+    ]
+  ],
+  [
+    #pause
+    このような手順でサイトの要求したフォントは解決される
 
-    layer(rgb("#ece8ff"), [Webページ], [font-family]),
+    この間で日本語のフォントが当たらないとズレてしまう
 
-    text(size: 18pt)[↓],
+    #text(size: 0.4em)[Blinkはブラウザのエンジン]
+  ],
+)
 
-    layer(rgb("#ece8ff"), [Blink], [style resolve]),
+= Case 1. Webサイト側でフォントが完結している
 
-    text(size: 18pt)[↓],
+#pause
+#statement()[サイト側でフォントが配信されていて、そこにJPフォントが無い]
 
-    layer(rgb("#e8fff4"), [Glyph Matching], [per character]),
-  )
+$arrow.r.double$ フォント解決がWebで完結してしまうため、\
+基本的にユーザー側でその設定を覆すことはできない
+
+#pause
+CSSを注入したり、ブラウザの起動フラグでWebフォントを無効化
+
+#pause
+$arrow.r.double$ 正常なサイトへ影響が出てしまう
+
+= Case 2. ローカルへフォールバックされる
+
+#statement()[WebサイトがOS側の実体フォントを使う場合]
+
+`font-family: "Noto Ssns JP", ...`のような名前のみの指定、\
+フォント解決がOSになるため、ユーザーが手を出すことができる
+
+Linuxでは...
+
+`fontconfig`という設定があり、
+
+
+
+= Case 3. Webサイト側でフォントが完結している
+
+
+
+
+= 適切にフォントが解決されるとは限らない
+
+== そもそもWebの時点でフォントが固定される
+
+てしまうと
+
+= フォントってなんだよ!
+
+= 結局フォントってどうするべき?
+
+- 個人的にはWebサイトはその表記した言語のフォントをちゃんと使うべき
+- しかし任意の内容を多言語対応することもある
+  - SNSとかブログサービスとか
+- その場合、静的にCJKの優先度をつけることは難しい
+  - 言語推定などによってフォント優先度を動的にする?
+  - クライアント側の言語設定に引っ張る?
+    - 非本質的な解決ですが楽
+
+= {}.comはどうしてる?
+
+== x.com
+
+#grid(
+  columns: (1fr, 2fr),
+  gutter: 1em,
+  [
+    #image("./images/x_fonts_.png")
+  ],
+  [
+    #text(size: 0.8em)[
+      `Noto Sans CJK JP`になっている
+    ]
+
+    #text(size: 0.8em)[
+      $arrow.r.double$ Twitterはツイートごとに`lang`属性をつけている
+
+      各言語ごとにちゃんとしたフォントが使われる
+    ]
+  ]
+)
+
+== claude.ai
+
+#grid(
+  columns: (1fr, 2fr),
+  gutter: 1em,
+  [
+    #image("./images/claude_ai_fonts.png")
+  ],
+  [
+    #text(size: 0.8em)[
+      なぜか`Noto Sans CJK KR`になっている
+    ]
+
+    #text(size: 0.8em)[
+    $arrow.r.double$ Claudeはこのあたりが雑でシステムフォールバックに落ち、そのあとに私のLinuxの設定も雑なのでKRに転んだ\
+    ]
+    #text(size: 0.6em)[という説もある]
+  ]
+)
+
+= I HATE "中華フォント"
+
+#quote(attribution: [「確率的存在文字」$dash.em$ Compute on Snails])[
+  私個人としてはあまりこの表記は好きじゃない。\
+  中国語の方が優先されている設定のことが多いせいで、間違いとして繁体字や簡体字などが表示されるだけで別にそれ固有の問題ではない。\
+  ほんとは繁体字で表示される場所に日本の新字体が出ればそれは同型の問題なので、あまり固有名として「中華フォント」という表現は好きじゃない。
 ]
+
+
+#grid(
+  columns: (auto, auto, auto),
+  gutter: 1em,
+  [
+    お気持ち表明でした\
+    良ければどうぞ $arrow.r$
+  ],
+  [
+    #image("./images/qr.svg", height: 2.8em)
+  ],
+  [
+    #align(left + horizon)[
+      #text(size: 0.7em)[
+        #link("https://blog.uliboooo.dev/probabilistic-existence-characters")
+      ]
+    ]
+  ]
+)
